@@ -1075,9 +1075,9 @@ const App = () => {
             {/* Dropdown for specific ailments, appears only after category is selected */}
             {selectedCategory && (
               <div className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                {/* REMOVED: <h3 className="text-xl font-semibold text-gray-800 mb-3">
                   Selecciona una dolencia específica en el área "{ailmentsData[selectedCategory].title}":
-                </h3>
+                </h3> */}
                 <select
                   value={selectedAilment}
                   onChange={(e) => handleSelectAilment(e.target.value)}
