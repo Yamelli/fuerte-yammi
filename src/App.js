@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+ import React, { useState, useEffect } from 'react';
 
 // Main App component
 const App = () => {
@@ -8,8 +8,10 @@ const App = () => {
   const [selectedAilment, setSelectedAilment] = useState('');
   // State to store the generated strengthening text
   const [strengtheningText, setStrengtheningText] = useState('');
-  // New state to control showing the strengthening view
+  // State to control showing the strengthening view (the detailed strengthening text)
   const [showStrengtheningView, setShowStrengtheningView] = useState(false);
+  // New state to control showing the initial landing page
+  const [showLandingPage, setShowLandingPage] = useState(true);
 
   // Define categories with their correct labels for buttons, ordered as they appear in the image
   const categories = [
@@ -21,6 +23,34 @@ const App = () => {
     { value: 'espiritual', label: 'Espiritual' }, // Intercambiado con General
     { value: 'general', label: 'General' },       // Intercambiado con Espiritual
   ];
+
+  // The initial strengthening text, now displayed on its own landing page
+  const initialStrengtheningPreamble = `
+    Me pongo fuerte para sentir, percibir, intuir, 100% creativo.
+
+    Elimino pensamiento, estoy neutral, no juzgo, no critico, sin miedo, vacío.
+
+    Soy capaz, dispuesto, preparado, digno, comprometido.
+
+    Puedo verlo, creerlo, crearlo, de la imaginación a la realidad. Que emerja mi verdadero ser.
+
+    Al 100% con potencial infinito, las debilidades sean igual a 0 menos infinito, el 100% del tiempo por tiempo infinito, reiniciar, recalibrar, reprogramar, rejuvenecer.
+    Elimino la mente y todo su excedente de mis células, moléculas, átomos y partículas cuánticas, enviándola a otras dimensiones, tiempos, espacios, universos y energía oscura.
+
+    Fuerte para estar sin mente, sin espíritu y vacío; fuerte para que mente, cuerpo y espíritu no se debiliten entre sí.
+    Fortalezco mi sistema nervioso central y la integración con todo el cuerpo, equilibrando izquierda-derecha, arriba-abajo y dentro-fuera.
+
+    Fortalezco los sistemas linfático, circulatorio, energético, respiratorio, digestivo y reproductor, eliminando bloqueos, inflamación, dolor y energía estancada.
+    Aumento pH alcalino, iones negativos y energía vital; elimino pH ácido, iones positivos y campos debilitantes.
+
+    Elimino juicio, autocrítica, culpa, frustración, tristeza y emociones acumuladas mías y de mis ancestros.
+
+    Fuerte para paz interior, alegría, felicidad incondicional y neutralidad.
+    Fortalezco átomos, moléculas y partículas cuánticas; elimino pensamientos negativos, interpretaciones erróneas e influencias externas.
+
+    Aumento inteligencia, fuerza, flexibilidad y vitalidad, fortaleciendo salud, forma física, relaciones, propósito, finanzas y tiempo.
+  `.trim();
+
 
   // Define specific ailments and their corresponding strengthening texts for each category
   const ailmentsData = {
@@ -422,9 +452,9 @@ const App = () => {
           la comunicación abierta, el respeto, la paciencia, la sabiduría para guiarlos,
           y la capacidad de ser un modelo positivo. Me fortalezco para que mis hijos
           sean fuertes, sanos, felices, exitosos, seguros, resilientes y desarrollen
-          su máximo potencial en todas las áreas. **Aumento su inteligencia física,
+          su máximo potencial en todas las áreas. Aumento su inteligencia física,
           su capacidad de aprendizaje, retención y comprensión. Fortalezco su desempeño escolar,
-          su concentración, su memoria y su entusiasmo por aprender.** Elimino cualquier debilidad
+          su concentración, su memoria y su entusiasmo por aprender. Elimino cualquier debilidad
           en el proceso educativo, presiones académicas o sociales, y la debilidad en su relación
           con maestros y compañeros.
         `,
@@ -837,14 +867,14 @@ const App = () => {
           o creencias limitantes sobre el propio valor en el mercado laboral.
           Fortalezco la atracción de oportunidades laborales alineadas con mi propósito,
           talentos y ambiciones. Aumento mi visibilidad, mis habilidades de entrevista,
-          mi confianza y mi valor profesional, abriendo caminos para un trabajo
+          my confianza y mi valor profesional, abriendo caminos para un trabajo
           más satisfactorio, próspero y realizado.
         `,
         crecer_trabajo_actual: `
           Elimino y disipo toda debilidad que impida crecer en el trabajo actual:
           estancamiento, falta de reconocimiento, problemas con colegas o superiores,
           baja motivación, o percepción de no merecimiento. Borro el efecto acumulado
-          de frustraciones, comparaciones, autosabotaje, o patrones de subestimación
+          of frustraciones, comparaciones, autosabotaje, o patrones de subestimación
           del propio potencial. Fortalezco mi rendimiento, mi creatividad, mi liderazgo,
           my comunicación efectiva y mi capacidad para innovar y aportar valor.
           Aumento el reconocimiento, las oportunidades de ascenso, la prosperidad económica
@@ -915,7 +945,7 @@ const App = () => {
           procedente de wifi, móviles, antenas, dispositivos electrónicos, causando dolores de cabeza,
           fatiga, irritabilidad, insomnio o malestar general. Borro el efecto acumulado
           de sensibilidad, debilidad del campo áurico o sobrecarga del sistema nervioso por EMF.
-          Fortalezco mi protección energética, la neutralidad ante las radiaciones
+          Fortalezco my protección energética, la neutralidad ante las radiaciones
           y la fortaleza celular para resistir cualquier impacto negativo,
           manteniéndome fuerte, protegido y en equilibrio en entornos tecnológicos,
           sin que me afecte ninguna frecuencia.
@@ -924,12 +954,78 @@ const App = () => {
     },
   };
 
+  // useEffect to handle browser's back/forward button (popstate event)
+  useEffect(() => {
+    // Push initial landing page state to history when component mounts
+    // Using replaceState to avoid pushing a duplicate state on initial load
+    window.history.replaceState({ appState: 'landing' }, '');
+
+    const handlePopState = (event) => {
+      if (event.state && event.state.appState) {
+        if (event.state.appState === 'landing') {
+          setShowLandingPage(true);
+          setShowStrengtheningView(false);
+          setSelectedCategory('');
+          setSelectedAilment('');
+          setStrengtheningText('');
+        } else if (event.state.appState === 'categories') {
+          setShowLandingPage(false);
+          setShowStrengtheningView(false);
+          setSelectedCategory('');
+          setSelectedAilment('');
+          setStrengtheningText('');
+        } else if (event.state.appState === 'strengthening') {
+          // If navigating back to a specific strengthening, regenerate its text
+          const { prevCategory, prevAilment } = event.state;
+          if (prevCategory && prevAilment) {
+            setSelectedCategory(prevCategory);
+            setSelectedAilment(prevAilment);
+            const specificText = ailmentsData[prevCategory].strengthenings[prevAilment];
+            const finalStrengthening = `
+              ${specificText}
+
+              Al 100% y potencial infinito, 100% del tiempo con tiempo infinito.
+              Reiniciar, recalibrar, reprogramar, rejuvenecer.
+            `.trim();
+            setStrengtheningText(finalStrengthening);
+            setShowStrengtheningView(true);
+            setShowLandingPage(false);
+          } else {
+            // Fallback if state is incomplete, go back to categories
+            setShowLandingPage(false);
+            setShowStrengtheningView(false);
+            setSelectedCategory('');
+            setSelectedAilment('');
+            setStrengtheningText('');
+          }
+        }
+      } else {
+        // If event.state is null or appState is missing, default to landing page
+        setShowLandingPage(true);
+        setShowStrengtheningView(false);
+        setSelectedCategory('');
+        setSelectedAilment('');
+        setStrengtheningText('');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    // Cleanup function: remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [ailmentsData]); // Added ailmentsData to dependency array for correct re-generation
+
   // Function to handle the selection of an ailment category
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
     setSelectedAilment(''); // Reset specific ailment when category changes
     setStrengtheningText(''); // Clear previous strengthening
     setShowStrengtheningView(false); // Ensure we are back on the main selection screen
+    // IMPORTANT FIX: No pushState here, as this is a sub-action within the categories view.
+    // The 'categories' state is pushed only when transitioning from landing to categories.
+    setShowLandingPage(false); // Make sure landing page is hidden
   };
 
   // Function to handle the selection of a specific ailment
@@ -947,99 +1043,103 @@ const App = () => {
       return;
     }
 
+    // Now, specificStrengthening will ONLY contain the text for the specific ailment
     const specificStrengthening = ailmentsData[selectedCategory].strengthenings[selectedAilment];
 
-    // The new fixed preamble that will be added to every strengthening
-    const fixedPreamble = `
-      Me pongo fuerte para sentir, percibir, intuir, 100% creativo.
-      Elimino pensamiento, estoy neutral, no juzgo, no critico, sin miedo, vacío.
-      Soy capaz, dispuesto, preparado, digno, comprometido.
-      Puedo verlo, creerlo, crearlo, de la imaginación a la realidad. Que emerja mi verdadero ser.
-      Al 100% con potencial infinito, las debilidades sean igual a 0 menos infinito, el 100% del tiempo por tiempo infinito, reiniciar, recalibrar, reprogramar, rejuvenecer.
-
-      Elimino la mente y todo su excedente de mis células, moléculas, átomos y partículas cuánticas, enviándola a:
-      Otras dimensiones.
-      Campos energéticos.
-      Tiempos y espacios.
-      Lugares desconocidos.
-      Otros universos.
-      Agujeros negros.
-      Agujeros de gusano.
-      Energía y materia oscura del universo.
-      Fuerte para estar sin mente, sin espíritu y vacío.
-      Fuerte para que la mente, el cuerpo y el espíritu no se debiliten entre sí, y para que no tenga más mente que cuerpo.
-
-      Fortalezco mi sistema nervioso central, incluyendo la cola energética, aumentando su energía y su integración con todas las partes del cuerpo y viceversa.
-      Elimino la desigualdad del cuerpo (izquierda-derecha, arriba-abajo, enfrente-atrás, dentro-fuera), fortaleciendo el centrado, equilibrio y estabilidad.
-
-      Aumento pH alcalino, iones negativos y campo electromagnético negativo.
-      Elimino pH ácido, iones positivos y campo electromagnético positivo.
-      Elimino cualquier sensación de dolor, malestar, irritación, ardor, presión, envaramiento, sensibilidad, insensibilidad, palpitaciones, hipersensibilidad, incomodidad, etc.
-
-      Fortalezco el sistema linfático y sus componentes, eliminando bloqueos, fermentación, infestación e inflamación.
-      Fortalezco la triada de los 3 sistemas mayores: respiratorio, digestivo y reproductor.
-      Fortalezco la triada del flujo vital básico: linfático, energético y circulatorio.
-
-      Fuerte para agujeros negros y agujeros de gusano en todas las células.
-      Fuerte para activar y tensar los portales de salida: pies, dedos de los pies, manos, dedos de las manos, pecho, abdomen, barbilla, axilas, sacro, colon, vejiga y genitales.
-      Aumento la velocidad de la percepción más allá de la velocidad de la luz.
-
-      Elimino el juicio, autocritica, pena, culpa, frustración, enojo, ira, tristeza, lágrimas contenidas, desesperación, emociones negativas y experiencias negativas de la vida, y todo su efecto acumulado y repetitivo. Esto aplica para mí y para mis ancestros de esta vida y de todas mis vidas pasadas.
-      Fuerte para estar alegre, para la felicidad incondicional, para el buen humor y para reír, fuerte para paz interior, fuerte para neutralidad.
-
-      Fortalezco la triada de los átomos: neutrones, protones y electrones.
-      Elimino todas las interpretaciones erróneas: que sea igual no igual, diferente no diferente, que cambie que no cambie, percepción no percepción.
-      Separo y elimino sensaciones – emociones – reacciones.
-      Elimino pensamientos negativos – recurrentes – involuntarios.
-      Elimino que me debiliten los diagnósticos equivocados, la opinión de expertos, la influencia del colectivo humano y la mente de otras personas.
-      Elimino todos los asuntos sin resolver de esta vida, de todas mis vidas pasadas y de mis ancestros.
-
-      Aumento la inteligencia física, la forma física y la velocidad de todas mis células, moléculas, átomos y partículas cuánticas.
-      Aumento la fuerza, resistencia, flexibilidad, coordinación, agilidad y velocidad.
-      Fortalezco y elimino todas las debilidades de los soportes básicos de la vida:
-      Salud. Forma física. Relaciones. Carrera o propósito. Finanzas. Tiempo (menos envejecimiento).
-      Aumento la tensión, elimino el esfuerzo y elimino la relajación.
-    `.trim();
-
     const finalStrengthening = `
-      ${fixedPreamble}
-
       ${specificStrengthening}
 
       Al 100% y potencial infinito, 100% del tiempo con tiempo infinito.
       Reiniciar, recalibrar, reprogramar, rejuvenecer.
-    `.trim(); // Using trim to remove leading/trailing whitespace
+    `.trim();
 
     setStrengtheningText(finalStrengthening);
     setShowStrengtheningView(true); // Show the strengthening view
+    // Push 'strengthening' state to history, storing category/ailment for back navigation
+    window.history.pushState({ appState: 'strengthening', prevCategory: selectedCategory, prevAilment: selectedAilment }, '');
   };
 
-  // Function to return to the main selection menu
-  const handleGoBack = () => {
+  // Function to return to the main selection menu (categories)
+  const handleGoBackToMenu = () => {
+    // This button will explicitly set the state to the categories view
+    setShowLandingPage(false);
+    setShowStrengtheningView(false);
+    setSelectedCategory(''); // Clear any previous selection when returning to categories
+    setSelectedAilment('');
+    setStrengtheningText('');
+    // And ensure the browser history reflects this by replacing the current entry
+    window.history.replaceState({ appState: 'categories' }, '');
+  };
+
+  // Function to navigate from landing page to categories page
+  const handleGoToAreas = () => {
+    // Push 'categories' state to history
+    window.history.pushState({ appState: 'categories' }, '');
+    setShowLandingPage(false);
+    setShowStrengtheningView(false); // Ensure no strengthening text is shown
+    setSelectedCategory(''); // Clear any previous selection
+    setSelectedAilment(''); // Clear any previous selection
+    setStrengtheningText(''); // Clear previous text
+  };
+
+  // New function to go directly to the landing page (Home button)
+  const handleGoToHome = () => {
+    // Clears the history to just the landing page state
+    window.history.replaceState({ appState: 'landing' }, '');
+    setShowLandingPage(true);
+    setShowStrengtheningView(false);
     setSelectedCategory('');
     setSelectedAilment('');
     setStrengtheningText('');
-    setShowStrengtheningView(false);
   };
+
 
   return (
     <div className="min-h-screen bg-stone-50 flex items-center justify-center p-4 font-inter">
       <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full text-center relative overflow-hidden">
         {/* Top "MÉTODO YUEN" */}
         <div className="absolute top-6 left-1/2 -translate-x-1/2 text-center z-10">
-          <h1 className="text-4xl font-serif text-gray-700 tracking-widest opacity-80 mb-2">
+          <h1 className="text-3xl font-serif text-gray-700 tracking-widest opacity-80 mb-2">
             MÉTODO YUEN
           </h1>
           {/* Decorative line, similar to the image's brush stroke */}
           <div className="w-24 h-1 bg-green-300 rounded-full mx-auto opacity-70"></div>
         </div>
 
-        {/* Conditional rendering based on showStrengtheningView state */}
-        {!showStrengtheningView ? ( // Show selection screen
+        {/* Home Button - Visible only when not on the landing page */}
+        {!showLandingPage && (
+          <button
+            onClick={handleGoToHome}
+            className="absolute top-6 left-6 p-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            aria-label="Ir a la página de inicio"
+          >
+            {/* House SVG icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </button>
+        )}
+
+        {showLandingPage ? ( // Show Landing Page
+          <div className="mt-10 p-6 bg-purple-50 rounded-2xl border border-purple-200 text-left">
+            <h2 className="text-2xl font-semibold text-purple-800 mb-4 text-center">
+              Fortalecimiento Inicial
+            </h2>
+            <p className="text-gray-800 whitespace-pre-line leading-relaxed mb-6">
+              {initialStrengtheningPreamble}
+            </p>
+            <button
+              onClick={handleGoToAreas}
+              className="mt-6 px-8 py-3 rounded-full text-lg font-semibold bg-blue-500 text-white shadow-md
+                         hover:bg-blue-600 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            >
+              Áreas a trabajar →
+            </button>
+          </div>
+        ) : !showStrengtheningView ? ( // Show Category Selection
           <>
             <p className="text-lg text-gray-700 mb-8 mt-24">
-              Selecciona el área de tu padecimiento y luego una dolencia específica
-              para recibir un fortalecimiento.
+              Selecciona el área que quieres trabajar para tener tu fortalecimiento.
             </p>
 
             {/* Buttons to select ailment category */}
@@ -1058,7 +1158,7 @@ const App = () => {
                     className={`w-full flex items-center justify-center px-4 py-3 rounded-full text-lg font-semibold transition-all duration-300 ease-in-out shadow-md
                       ${selectedCategory === category.value
                         ? 'bg-purple-400 text-white transform scale-105'
-                        : 'bg-purple-200 text-purple-800 hover:bg-purple-300'
+                        : 'bg-purple-200                       text-purple-800 hover:bg-purple-300'
                       } focus:outline-none focus:ring-4 focus:ring-purple-300`}
                   >
                     <span className="">{category.label}</span>
@@ -1103,7 +1203,7 @@ const App = () => {
               Generar Fortalecimiento
             </button>
           </>
-        ) : ( // Show strengthening text and back button
+        ) : ( // Show Strengthening Text
           <div className="mt-10 p-6 bg-indigo-50 rounded-2xl border border-indigo-200 text-left">
             <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
               Tu Fortalecimiento:
@@ -1112,7 +1212,7 @@ const App = () => {
               {strengtheningText}
             </p>
             <button
-              onClick={handleGoBack}
+              onClick={handleGoBackToMenu}
               className="mt-6 px-8 py-3 rounded-full text-lg font-semibold bg-blue-500 text-white shadow-md
                          hover:bg-blue-600 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-blue-300"
             >
@@ -1126,3 +1226,4 @@ const App = () => {
 };
 
 export default App;
+
