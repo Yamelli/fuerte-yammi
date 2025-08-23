@@ -1003,7 +1003,7 @@ const App = () => {
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full sm:max-w-xl md:max-w-2xl text-center relative overflow-hidden">
         {/* Top "MÉTODO YUEN" */}
         <div className="absolute top-6 left-1/2 -translate-x-1/2 text-center z-10">
-          <h1 className="text-2xl font-serif text-gray-700 tracking-widest opacity-80 mb-2">
+          <h1 className="text-xl font-serif text-gray-700 tracking-widest opacity-80 mb-2">
             MÉTODO YUEN
           </h1>
           {/* Decorative line, similar to the image's brush stroke */}
