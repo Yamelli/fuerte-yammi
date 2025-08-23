@@ -1025,7 +1025,7 @@ const App = () => {
         )}
 
         {showLandingPage ? ( // Show Landing Page
-          <div className="mt-10 p-6 bg-purple-50 rounded-2xl border border-purple-200 text-left">
+          <div className="mt-10 p-4 bg-purple-50 rounded-2xl border border-purple-200 text-left">
             <h2 className="text-2xl font-semibold text-purple-800 mb-4 text-center">
               Fortalecimiento Inicial
             </h2>
@@ -1108,7 +1108,7 @@ const App = () => {
             </button>
           </>
         ) : ( // Show Strengthening Text
-          <div className="mt-10 p-6 bg-indigo-50 rounded-2xl border border-indigo-200 text-left">
+          <div className="mt-10 p-4 bg-indigo-50 rounded-2xl border border-indigo-200 text-left">
             <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
               Tu Fortalecimiento:
             </h2>
@@ -1130,3 +1130,4 @@ const App = () => {
 };
 
 export default App;
+
