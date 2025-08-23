@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react'; // Import useMemo
 
 // Main App component
 const App = () => {
@@ -13,8 +13,8 @@ const App = () => {
   // New state to control showing the initial landing page
   const [showLandingPage, setShowLandingPage] = useState(true);
 
-  // Define categories with their correct labels for buttons, ordered as they appear in the image
-  const categories = [
+  // Define categories using useMemo to prevent re-creation on every render
+  const categories = useMemo(() => [
     { value: 'fisico', label: 'Físico' },
     { value: 'mental', label: 'Mental' },
     { value: 'emocional', label: 'Emocional' },
@@ -22,7 +22,7 @@ const App = () => {
     { value: 'psicologico', label: 'Psicológico' },
     { value: 'espiritual', label: 'Espiritual' }, // Intercambiado con General
     { value: 'general', label: 'General' },       // Intercambiado con Espiritual
-  ];
+  ], []); // Empty dependency array means it only runs once
 
   // The initial strengthening text, now displayed on its own landing page
   const initialStrengtheningPreamble = `
@@ -53,7 +53,8 @@ const App = () => {
 
 
   // Define specific ailments and their corresponding strengthening texts for each category
-  const ailmentsData = {
+  // Using useMemo for ailmentsData as well
+  const ailmentsData = useMemo(() => ({
     fisico: {
       title: 'Padecimientos Físicos',
       options: [
@@ -597,7 +598,7 @@ const App = () => {
         vision_futuro_nublada: `
           Elimino y disipo toda debilidad de visión de futuro nublada:
           incertidumbre, falta de claridad en el camino, no ver las oportunidades,
-          y sensación de estancamiento. Borro el efecto acumulado de miedos,
+          y sensación de estancamiento. Borro el efecto acumulado de miedos
           programaciones negativas, fatalismo, duda sobre el futuro o falta de conexión
           con el propósito divino. Fortalezco una visión clara, optimismo, dirección,
           la capacidad de discernir las oportunidades y la manifestación del futuro deseado,
@@ -799,6 +800,16 @@ const App = () => {
           consciente y lleno de gracia, permitiendo la expansión de mi conciencia,
           my ser y mi conexión con las dimensiones superiores.
         `,
+        vision_futuro_nublada: `
+          Elimino y disipo toda debilidad de visión de futuro nublada:
+          incertidumbre, falta de claridad en el camino, no ver las oportunidades,
+          y sensación de estancamiento. Borro el efecto acumulado de miedos
+          programaciones negativas, fatalismo, duda sobre el futuro o falta de conexión
+          con el propósito divino. Fortalezco una visión clara, optimismo, dirección,
+          la capacidad de discernir las oportunidades y la manifestación del futuro deseado,
+          con facilidad y gracia, abriendo caminos hacia el éxito y la realización
+          de mis sueños y metas.
+        `,
       },
     },
     general: {
@@ -952,7 +963,8 @@ const App = () => {
         `,
       },
     },
-  };
+  }), []);
+
 
   // useEffect to handle browser's back/forward button (popstate event)
   useEffect(() => {
@@ -1015,7 +1027,7 @@ const App = () => {
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [ailmentsData]); // Added ailmentsData to dependency array for correct re-generation
+  }, [ailmentsData]); // 'ailmentsData' is now memoized, so this dependency is stable
 
   // Function to handle the selection of an ailment category
   const handleSelectCategory = (category) => {
@@ -1226,4 +1238,5 @@ const App = () => {
 };
 
 export default App;
+
 
