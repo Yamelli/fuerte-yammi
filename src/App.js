@@ -7,8 +7,8 @@ const categories = [
   { value: 'emocional', label: 'Emocional' },
   { value: 'psiquico', label: 'Psíquico' },
   { value: 'psicologico', label: 'Psicológico' },
-  { value: 'espiritual', label: 'Espiritual' }, // Intercambiado con General
-  { value: 'general', label: 'General' },       // Intercambiado con Espiritual
+  { value: 'espiritual', label: 'Espiritual' },
+  { value: 'general', label: 'General' },
 ];
 
 // The initial strengthening text, defined outside the component
@@ -776,15 +776,18 @@ const ailmentsData = {
       { value: 'mala_suerte', label: 'Mala Suerte / Obstáculos' },
       { value: 'apatia_desmotivacion', label: 'Apatía / Desmotivación' },
       { value: 'problemas_financieros', label: 'Problemas Financieros (General)' },
-      { value: 'mejor_trabajo', label: 'Mejor Trabajo' }, // Nuevo
-      { value: 'crecer_trabajo_actual', label: 'Crecer en el Trabajo Actual' }, // Nuevo
-      { value: 'relacion_maestro_alumno', label: 'Relación Maestro-Alumno' }, // Nuevo
+      { value: 'mejor_trabajo', label: 'Mejor Trabajo' },
+      { value: 'crecer_trabajo_actual', label: 'Crecer en el Trabajo Actual' },
+      { value: 'relacion_maestro_alumno', label: 'Relación Maestro-Alumno' },
       { value: 'falta_oportunidades', label: 'Falta de Oportunidades' },
       { value: 'problemas_legales', label: 'Problemas Legales' },
       { value: 'casa_negativa', label: 'Energía Negativa en Casa/Trabajo' },
       { value: 'cambio_climatico_adaptacion', label: 'Adaptación a Cambios Climáticos' },
       { value: 'jet_lag', label: 'Jet Lag / Desajustes de Viaje' },
       { value: 'exposicion_radiacion', label: 'Exposición a Radiación Electromagnética' },
+      { value: 'fortalecer_casa', label: 'Fortalecer la Casa / Hogar' },
+      { value: 'aula_pre_clases', label: 'Aula de Clases (Pre-Alumnos)' },
+      { value: 'regreso_clases_ninos', label: 'Regreso a Clases (Salón, Compañeros, Maestros, Aprendizaje)' },
     ],
     strengthenings: {
       energia_baja_general: `
@@ -918,6 +921,46 @@ const ailmentsData = {
         manteniéndome fuerte, protegido y en equilibrio en entornos tecnológicos,
         sin que me afecte ninguna frecuencia.
       `,
+      // --- Nuevos fortalecimientos para la categoría 'General' ---
+      fortalecer_casa: `
+        Elimino y disipo toda debilidad de energías negativas en mi casa/hogar:
+        acumulación de estrés, conflictos pasados, tristeza, preocupaciones,
+        influencias de terceros o energías estancadas que afectan la armonía.
+        Borro el efecto acumulado de memorias de dolor en las paredes, objetos,
+        suelos, techos y cimientos. Fortalezco la limpieza energética profunda,
+        la armonía, la paz, la alta vibración y la protección en cada rincón
+        de mi hogar. Fortalezco los límites energéticos del espacio,
+        la entrada de luz, prosperidad y bienestar, creando un santuario
+        de amor, calma y alegría para todos sus habitantes.
+      `,
+      aula_pre_clases: `
+        Elimino y disipo toda debilidad en el aula de clases antes de recibir a los alumnos:
+        energías residuales de días anteriores, estrés, desmotivación, cansancio,
+        conflictos o cualquier baja vibración que pueda afectar el ambiente de aprendizaje.
+        Borro el efecto acumulado de expectativas negativas, presiones, juicios o miedos.
+        Fortalezco el espacio del aula para la calma, la concentración, el entusiasmo,
+        la creatividad y la conexión grupal. Aumento la energía de aprendizaje,
+        la curiosidad, la facilidad para comprender y retener información.
+        Fortalezco la protección del espacio para que solo energías positivas
+        y constructivas entren, creando un ambiente óptimo y seguro para el desarrollo
+        y bienestar de todos los alumnos y maestros.
+      `,
+      regreso_clases_ninos: `
+        Fortalezco a los niños para un regreso a clases fuerte, feliz y exitoso.
+        Elimino y disipo toda debilidad relacionada con la transición de vacaciones a escuela:
+        miedos, inseguridades, ansiedad por lo desconocido, timidez, frustración,
+        o resistencia al cambio. Borro el efecto acumulado de conflictos pasados con compañeros o maestros,
+        presiones académicas, estrés social, o la sensación de no ser suficiente.
+        Fortalezco el salón de clases para ser un espacio de seguridad, aprendizaje y alegría.
+        Fortalezco a los compañeros para la amistad, el respeto, la empatía y la colaboración,
+        eliminando rivalidades, burlas o exclusión.
+        Fortalezco a los maestros para la paciencia, la inspiración, la comunicación efectiva
+        y la guía amorosa, eliminando la debilidad en su conexión con los alumnos.
+        Fortalezco el aprendizaje para ser fácil, rápido, divertido y significativo,
+        aumentando la curiosidad, la concentración, la memoria y la comprensión.
+        Fortalezco a los niños para que se sientan valorados, seguros, felices, motivados
+        y capaces de expresar su potencial al máximo en la escuela.
+      `,
     },
   },
 };
@@ -958,7 +1001,7 @@ const App = () => {
         } else if (event.state.appState === 'strengthening') {
           // If navigating back to a specific strengthening, regenerate its text
           const { prevCategory, prevAilment } = event.state;
-          if (prevCategory && prevAilment) {
+          if (prevCategory && prevAilment && ailmentsData[prevCategory] && ailmentsData[prevCategory].strengthenings[prevAilment]) {
             setSelectedCategory(prevCategory);
             setSelectedAilment(prevAilment);
             const specificText = ailmentsData[prevCategory].strengthenings[prevAilment];
