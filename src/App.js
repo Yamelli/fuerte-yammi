@@ -689,6 +689,86 @@ const ailmentsData = {
       `,
     },
   },
+  espiritual: {
+    title: 'Padecimientos Espirituales',
+    options: [
+      { value: 'desconexion_divina', label: 'Desconexión Divina' },
+      { value: 'falta_proposito', label: 'Falta de Propósito' },
+      { value: 'bloqueos_pasados', label: 'Bloqueos de Vidas Pasadas' },
+      { value: 'karma_negativo', label: 'Karma Negativo' },
+      { value: 'sanacion_ancestral', label: 'Sanación Ancestral' },
+      { value: 'miedo_muerte', label: 'Miedo a la Muerte / Transición' },
+      { value: 'alineacion_superior', label: 'Alineación con el Ser Superior' },
+    ],
+    strengthenings: {
+      desconexion_divina: `
+        Elimino y disipo toda debilidad de desconexión espiritual,
+        sentirse solo, vacío o alejado de lo divino. Borro el efecto acumulado
+        de traumas religiosos, escepticismo, creencias limitantes sobre Dios/Fuente,
+        o la sensación de no merecer el amor universal. Fortalezco la conexión
+        profunda, incondicional y amorosa con la Fuente Divina, con mi espíritu,
+        y con todos los seres de luz. Aumento la fe, la devoción y la certeza
+        de que soy parte de algo más grande, sintiendo paz y protección.
+      `,
+      falta_proposito: `
+        Elimino y disipo toda debilidad de falta de propósito,
+        sentirse perdido, sin dirección, apático o sin sentido en la vida.
+        Borro el efecto acumulado de desilusiones, fracasos percibidos,
+        presiones sociales o la incapacidad de escuchar la guía interna.
+        Fortalezco la claridad de propósito, la conexión con mi misión de vida,
+        la inspiración, la motivación y la dirección divina, permitiendo
+        que mi camino se revele con facilidad y alegría, alineado con mi mayor bien.
+      `,
+      bloqueos_pasados: `
+        Elimino y disipo toda debilidad de bloqueos de vidas pasadas:
+        patrones recurrentes, miedos inexplicables, relaciones kármicas,
+        o limitaciones que se arrastran sin causa aparente en esta vida.
+        Borro el efecto acumulado de votos, pactos, juramentos, implantes
+        o memorias dolorosas de otras existencias que me impiden avanzar.
+        Fortalezco la liberación, la sanación, el perdón y la trascendencia
+        de cualquier atadura del pasado, permitiendo una vida de libertad,
+        plenitud y potencial ilimitado en el presente.
+      `,
+      karma_negativo: `
+        Elimino y disipo toda debilidad de karma negativo (individual, familiar, colectivo):
+        situaciones repetitivas de dificultad, injusticia, escasez o conflicto.
+        Borro el efecto acumulado de acciones, pensamientos o palabras
+        pasadas que generaron desequilibrio y sufrimiento. Fortalezco la transmutación,
+        la purificación, el equilibrio kármico y la liberación de todas las deudas energéticas.
+        Me fortalezco para actuar desde el amor, la compasión y la sabiduría,
+        creando un futuro de abundancia, armonía y bienestar.
+      `,
+      sanacion_ancestral: `
+        Elimino y disipo toda debilidad heredada de mi linaje ancestral (físicas, emocionales, mentales, espirituales):
+        enfermedades genéticas, patrones de escasez, dramas familiares, miedos,
+        culpas o resentimientos que no me pertenecen. Borro el efecto acumulado
+        de traumas, secretos, lealtades invisibles o sufrimiento no resuelto
+        de mis ancestros. Fortalezco la sanación del árbol genealógico,
+        la liberación de cargas transgeneracionales y la bendición de mi linaje.
+        Me fortalezco para honrar a mis ancestros con amor y respeto,
+        pero libre de sus debilidades, viviendo mi propio destino de plenitud y luz.
+      `,
+      miedo_muerte: `
+        Elimino y disipo toda debilidad de miedo a la muerte,
+        a la transición, al más allá, al sufrimiento, al abandono o a lo desconocido
+        relacionado con el fin de la vida. Borro el efecto acumulado de traumas
+        relacionados con la muerte (propios o ajenos), creencias limitantes sobre la vida
+        después de la muerte o la resistencia al ciclo natural de la existencia.
+        Fortalezco la aceptación, la paz, la serenidad y la confianza en el proceso
+        de la vida y de la muerte, sintiendo la continuidad del ser,
+        sin miedo y con total entrega.
+      `,
+      alineacion_superior: `
+        Elimino y disipo toda debilidad de desalineación con mi Ser Superior,
+        dificultad para escuchar la guía divina, vivir en el ego,
+        y la desconexión con mi verdadera esencia. Borro el efecto acumulado de programaciones
+        negativas, miedos, dudas o la incapacidad de confiar en mi sabiduría interna.
+        Fortalezco la alineación perfecta con mi Ser Superior, mi alma y mi chispa divina.
+        Fortalezco la conexión con la verdad, el amor, la sabiduría y el poder que reside en mí,
+        permitiendo que mi yo auténtico se manifieste plenamente en cada momento.
+      `,
+    },
+  },
   general: {
     title: 'Padecimientos Generales',
     options: [
@@ -1073,7 +1153,7 @@ const App = () => {
             </div>
 
             {/* Dropdown for specific ailments, appears only after category is selected */}
-            {selectedCategory && (
+            {selectedCategory && ailmentsData[selectedCategory] && (
               <div className="mb-8">
                 <select
                   value={selectedAilment}
